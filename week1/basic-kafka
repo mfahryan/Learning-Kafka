@@ -8,7 +8,7 @@ Dokumentasi ini berisi langkah-langkah yang saya pelajari saat belajar tentang A
 1.2.1 Start zookeeper service
 `bin/zookeeper-server-start.sh config/zookeeper.properties`
 Pada bagian ini, zookeeper akan running di terminal, tentu hal ini akan tidak efisien karena ketika terminal tersebut ditutup maka zookeeper servicenya pun berakhir.
-![zookeepernosystemd](https://github.com/mfahryan/learning-Kafka/assets/112185850/7f6c1e08-4ca8-4735-8496-618bac24ac64)
+
 
 untuk menyeselasaikan masalah tersebut saya disini saya menggunakan linux systemd
 
