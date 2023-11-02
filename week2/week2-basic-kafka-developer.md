@@ -182,6 +182,14 @@ disini saya ingin menghapus topic dengan nama "topik" dan hasilnya seperti berik
 
 ### Langkah 5 : Membangun Demo Kafka streams dengan kstream dan ktable dengan Java
 
+Kafka adalah platform streaming terdistribusi yang menghubungkan berbagai aplikasi atau layanan mikro untuk memungkinkan pemrosesan berkelanjutan. Tujuannya adalah untuk memastikan aplikasi klien menerima informasi dari sumber secara konsisten secara waktu nyata.
+
+Beberapa produser dapat melakukan aliran pesan ke topik yang sama atau ke beberapa topik. Hal ini memungkinkan sistem yang menggunakan Kafka untuk mengumpulkan data dari banyak sumber dan membuatnya konsisten.
+
+Streams API dalam Apache Kafka adalah pustaka yang kuat dan ringan yang memungkinkan pemrosesan on-the-fly, memungkinkan Anda menggabungkan, membuat parameter windowing, melakukan penggabungan data dalam aliran, dan banyak lagi.
+
+Berikut adalah cara atau demo kafka streams
+
 5.1 Membangun Demo Kafka Streams
 Disini kita membuat Demo Kafka Streams dengan WordCount Application
 pertama kita membuat class di java
