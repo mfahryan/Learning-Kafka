@@ -332,7 +332,8 @@ Dan jika kita jalanin streams akan running secara terus menerus seperti pada di 
 ![Screenshot from 2023-11-02 17-12-30](https://github.com/mfahryan/Learning-Kafka/assets/112185850/1bd5699e-f824-47e3-9cd9-cd119299ff4b)
 
 5.2 Membuat Producer Kafka Streams
-disini saya membangun Producer dengan:
+
+Disini saya membangun Producer dengan:
 ```
 bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic streams-test-wordcount-input
 give me sometime to understand
@@ -346,7 +347,8 @@ give me someone to being grateful
 ```
 
 5.3 Membuat Consumer Kafka Streams
-disini saya membangun Consumer dengan Pesan yang akan diproses oleh aplikasi Wordcount dan data keluaran berikut akan ditulis ke topik stream-wordcount-output dan dicetak oleh konsumen konsol: disini saya membuat topik keluaran dengan pemadatan diaktifkan karena aliran keluaran adalah aliran log perubahan: 
+
+Disini saya membangun Consumer dengan Pesan yang akan diproses oleh aplikasi Wordcount dan data keluaran berikut akan ditulis ke topik stream-wordcount-output dan dicetak oleh konsumen konsol: disini saya membuat topik keluaran dengan pemadatan diaktifkan karena aliran keluaran adalah aliran log perubahan: 
 ```
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
     --topic streams-wordcount-output \
@@ -395,6 +397,15 @@ jika ditabelkan maka hasilnya seperti gambar dibawah :
 
 ![table2 drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9976403a-a7a2-491a-b5c0-75e94dabb14d)
 
+5.4 Membuat Ktable
+
+Ktable merupakan "Sepotong peristiwa/slice of events" dari stream pada titik waktu tertentu - sering kali merupakan "waktu terkini".
+
+jadi tabel adalah tampilan event stream. dan tampilan ini terus diupdate setiap ada event baru yang masuk.
+
+tabel juga dapat berupa kumpulan peristiwa atau data aliran, misalnya jika tweet oleh mr bond dianggap sebagai "Stream" maka jika kita menggabungkan jumlah tweet dalam 30 kali terakhir, maka itu akan menjadi tabel kafka atau Ktable
+
+tabel kafka bisa berubah. baris acara baru dapat disisipkan, dan baris yang ada dapat diperbarui dan dihapus
 
 
 
