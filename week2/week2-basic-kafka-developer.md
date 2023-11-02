@@ -180,9 +180,222 @@ disini saya ingin menghapus topic dengan nama "topik" dan hasilnya seperti berik
 
 ![deletetopics](https://github.com/mfahryan/Learning-Kafka/assets/112185850/6d439045-73fa-4d36-801d-05b9f985d024)
 
-### Langkah 5 Membangun Demo Kafka streams dengan kstream dan ktable dengan Java
+### Langkah 5 : Membangun Demo Kafka streams dengan kstream dan ktable dengan Java
 
-5.1 membangun demo kafka streams
+5.1 Membangun Demo Kafka Streams
+Disini kita membuat Demo Kafka Streams dengan WordCount Application
+pertama kita membuat class di java
+
+```
+public class WordCountApplication {
+
+    public static void main(String[] args) throws Exception {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-wordcount");
+```
+
+ Untuk menghitung kata, pertama-tama kita dapat memodifikasi operator flatMapValues untuk memperlakukan semuanya sebagai huruf kecil (dengan asumsi ekspresi lambda digunakan):
+ 
+ ```
+ source.flatMapValues(new ValueMapper<String, Iterable<String>>() {
+    @Override
+    public Iterable<String> apply(String value) {
+        return Arrays.asList(value.toLowerCase(Locale.getDefault()).split("\\W+"));
+    }
+ ```
+ Untuk melakukan agregasi penghitungan, pertama-tama kita harus menentukan bahwa kita ingin memasukkan aliran pada string nilai, yaitu kata dengan huruf kecil, dengan operator groupBy. Operator ini menghasilkan aliran grup baru, yang kemudian dapat digabungkan dengan operator penghitungan, yang menghasilkan penghitungan berjalan pada masing-masing kunci yang dikelompokkan:
+ ```
+ KTable<String, Long> counts =
+source.flatMapValues(new ValueMapper<String, Iterable<String>>() {
+            @Override
+            public Iterable<String> apply(String value) {
+                return Arrays.asList(value.toLowerCase(Locale.getDefault()).split("\\W+"));
+            }
+        })
+      .groupBy(new KeyValueMapper<String, String, String>() {
+           @Override
+           public String apply(String key, String value) {
+               return value;
+           }
+        })
+      // Materialize the result into a KeyValueStore named "counts-store".
+      // The Materialized store is always of type <Bytes, byte[]> as this is the format of the inner most store.
+      .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>> as("counts-store"));
+```
+
+Perhatikan bahwa operator penghitungan memiliki parameter Terwujud yang menentukan bahwa penghitungan yang berjalan harus disimpan di penyimpanan status bernama penghitungan-penyimpanan. Penyimpanan jumlah-toko ini dapat ditanyakan secara real-time, dengan rincian yang dijelaskan dalam Panduan Pengembang.
+
+Kita juga dapat menulis kembali aliran changelog hitungan KTable ke topik Kafka lainnya, misalnya stream-wordcount-output. Karena hasilnya adalah aliran changelog, topik keluaran stream-wordcount-output harus dikonfigurasi dengan pemadatan log yang diaktifkan. Perhatikan bahwa kali ini tipe nilainya bukan lagi String melainkan Long, sehingga kelas serialisasi default tidak lagi dapat ditulis ke Kafka. Kita perlu menyediakan metode serialisasi yang diganti untuk tipe Long, jika tidak, pengecualian runtime akan muncul:
+
+```
+KStream<String, String> source = builder.stream("streams-plaintext-input");
+source.flatMapValues(value -> Arrays.asList(value.toLowerCase(Locale.getDefault()).split("\\W+")))
+      .groupBy((key, value) -> value)
+      .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"))
+      .toStream()
+      .to("streams-wordcount-output", Produced.with(Serdes.String(), Serdes.Long()));
+
+```
+Jika kita mendeskripsikan lagi topology augmented ini sebagai `System.out.println(topology.describe())` , kita akan mendapatkan yang berikut:
+```
+Sub-topologies:
+  Sub-topology: 0
+    Source: KSTREAM-SOURCE-0000000000(topics: streams-plaintext-input) --> KSTREAM-FLATMAPVALUES-0000000001
+    Processor: KSTREAM-FLATMAPVALUES-0000000001(stores: []) --> KSTREAM-KEY-SELECT-0000000002 <-- KSTREAM-SOURCE-0000000000
+    Processor: KSTREAM-KEY-SELECT-0000000002(stores: []) --> KSTREAM-FILTER-0000000005 <-- KSTREAM-FLATMAPVALUES-0000000001
+    Processor: KSTREAM-FILTER-0000000005(stores: []) --> KSTREAM-SINK-0000000004 <-- KSTREAM-KEY-SELECT-0000000002
+    Sink: KSTREAM-SINK-0000000004(topic: counts-store-repartition) <-- KSTREAM-FILTER-0000000005
+  Sub-topology: 1
+    Source: KSTREAM-SOURCE-0000000006(topics: counts-store-repartition) --> KSTREAM-AGGREGATE-0000000003
+    Processor: KSTREAM-AGGREGATE-0000000003(stores: [counts-store]) --> KTABLE-TOSTREAM-0000000007 <-- KSTREAM-SOURCE-0000000006
+    Processor: KTABLE-TOSTREAM-0000000007(stores: []) --> KSTREAM-SINK-0000000008 <-- KSTREAM-AGGREGATE-0000000003
+    Sink: KSTREAM-SINK-0000000008(topic: streams-wordcount-output) <-- KTABLE-TOSTREAM-0000000007
+Global Stores:
+  none
+
+```
+ Seperti yang bisa kita lihat di atas, topologi sekarang berisi dua sub-topologi yang tidak terhubung. Node sink sub-topologi pertama `KSTREAM-SINK-0000000004` akan menulis ke topik partisi ulang jumlah-penyimpanan-partisi ulang, yang akan dibaca oleh node sumber sub-topologi kedua `KSTREAM-SOURCE-0000000006`. Topik partisi ulang digunakan untuk "mengacak" aliran sumber berdasarkan kunci agregasinya, yang dalam hal ini adalah string nilai. Selain itu, di dalam sub-topologi pertama, node `KSTREAM-FILTER-0000000005` tanpa kewarganegaraan dimasukkan di antara node pengelompokan `KSTREAM-KEY-SELECT-0000000002` dan node sink untuk menyaring rekaman perantara yang kunci agregatnya kosong.
+
+Dalam sub-topologi kedua, simpul agregasi `KSTREAM-AGGREGATE-0000000003` dikaitkan dengan penyimpanan negara bernama counts-store (nama ditentukan oleh pengguna dalam operator hitungan). Setelah menerima setiap catatan dari node sumber aliran berikutnya, pemroses agregasi pertama-tama akan menanyakan penyimpanan jumlah penyimpanan terkait untuk mendapatkan jumlah saat ini untuk kunci tersebut, menambah satu, dan kemudian menulis jumlah baru kembali ke penyimpanan. Setiap jumlah kunci yang diperbarui juga akan disalurkan ke hilir ke node `KTABLE-TOSTREAM-0000000007`, yang menafsirkan aliran pembaruan ini sebagai aliran rekaman sebelum disalurkan lebih lanjut ke node sink `KSTREAM-SINK-0000000008` untuk menulis kembali ke Kafka.
+
+Kode lengkapnya terlihat seperti ini (dengan asumsi ekspresi lambda digunakan):
+```
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.state.KeyValueStore;
+
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
+
+public class WordCountApplication {
+    public static void main(String[] args) throws Exception{
+
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "streams-wordcount");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+
+        final StreamsBuilder builder = new StreamsBuilder();
+
+        KStream<String, String> source = builder.stream("streams-test-wordcount-input");
+        source.flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
+                .groupBy((key, value) -> value)
+                .count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"))
+                .toStream()
+                .to("streams-test-wordcount-output", Produced.with(Serdes.String(), Serdes.Long()));
+
+        final Topology topology = builder.build();
+        final KafkaStreams streams = new KafkaStreams(topology, props);
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        Runtime.getRuntime().addShutdownHook(new Thread("streams-shutdown-hook") {
+            @Override
+            public void run() {
+                streams.close();
+                latch.countDown();
+            }
+        });
+
+        try {
+            streams.start();
+            latch.await();
+        } catch (Throwable e) {
+            System.exit(1);
+        }
+        System.exit(0);
+
+
+    }
+
+}
+
+```
+Dan jika kita jalanin streams akan running secara terus menerus seperti pada di gambar
+
+![Screenshot from 2023-11-02 17-12-30](https://github.com/mfahryan/Learning-Kafka/assets/112185850/1bd5699e-f824-47e3-9cd9-cd119299ff4b)
+
+5.2 Membuat Producer Kafka Streams
+disini saya membangun Producer dengan:
+```
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic streams-test-wordcount-input
+give me sometime to understand
+
+```
+```
+bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic streams-test-wordcount-input
+give me sometime to understand
+give me someone to being grateful
+
+```
+
+5.3 Membuat Consumer Kafka Streams
+disini saya membangun Consumer dengan Pesan yang akan diproses oleh aplikasi Wordcount dan data keluaran berikut akan ditulis ke topik stream-wordcount-output dan dicetak oleh konsumen konsol: disini saya membuat topik keluaran dengan pemadatan diaktifkan karena aliran keluaran adalah aliran log perubahan: 
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+    --topic streams-wordcount-output \
+    --from-beginning \
+    --formatter kafka.tools.DefaultMessageFormatter \
+    --property print.key=true \
+    --property print.value=true \
+    --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
+    --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+give		1
+me		1
+someone		1
+to		1
+understand	1
+
+```
+lalu saya input data yang kedua berupa : `give me someone to being grateful` dan hasilnya ialah
+
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+    --topic streams-wordcount-output \
+    --from-beginning \
+    --formatter kafka.tools.DefaultMessageFormatter \
+    --property print.key=true \
+    --property print.value=true \
+    --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
+    --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+give		1
+me		1
+sometime		1
+to		1
+understand	1
+give		2
+me		2
+someone		1
+to		2
+being		1
+grateful	1	
+
+```
+seperti pada gambar dibawah : 
+
+![Screenshot from 2023-11-02 17-31-12](https://github.com/mfahryan/Learning-Kafka/assets/112185850/08331fb9-ab8b-42ab-a24d-ebe0c0476c72)
+
+jika ditabelkan maka hasilnya seperti gambar dibawah : 
+
+![table2 drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9976403a-a7a2-491a-b5c0-75e94dabb14d)
+
+
+
+
+
+
+
+
+
+
 
 
 
