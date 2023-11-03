@@ -44,3 +44,13 @@ Tanpa `key`, dua pesan pada `key` yang sama dapat masuk ke partisi berbeda dan d
 ## topology
 
 Topologi adalah grafik asiklik sumber, prosesor, dan sink. Sumber adalah simpul dalam grafik yang menggunakan satu atau beberapa topik Kafka dan meneruskannya ke simpul penerusnya. Prosesor adalah sebuah node dalam grafik yang menerima rekaman masukan dari node hulu, memproses rekaman tersebut, dan secara opsional meneruskan rekaman baru ke satu atau semua node hilirnya. Terakhir, sink adalah node dalam grafik yang menerima catatan dari node upstream dan menulisnya ke topik Kafka. Topologi memungkinkan Anda membuat grafik asiklik dari node-node ini, dan kemudian diteruskan ke instance KafkaStreams baru yang kemudian akan mulai menggunakan, memproses, dan memproduksi rekaman.
+
+
+## RDBMS
+
+![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/d88032d6-c210-4f35-b5b4-6186cd7f5a8f)
+
+Konektor MySQL Kafka adalah alat yang berguna untuk mengalirkan data dari database eksternal seperti MySQL ke Topik Kafka. Alat ini memungkinkan Anda mengambil data dari tabel database relasional MySQL dan mencatat semua perubahan tingkat baris yang dihasilkan pada data Anda. Konektor tersedia di situs web Confluent dan disebut Confluent JDBC MySQL Source Connector. Ini berjalan di cloud.
+
+Konektor MySQL Kafka mendukung berbagai format data seperti Avro, Skema JSON, Protobuf, atau JSON untuk menyinkronkan semua peristiwa database untuk setiap tabel database sebagai Topik Kafka terpisah. Dengan menggunakan MySQL ke Kafka Connector, Anda dapat mentransfer data penting yang berada di tabel database MySQL Anda seperti informasi pelanggan, dan data pemangku kepentingan, serta melakukan Pemrosesan Aliran pada data ini menggunakan fungsi bawaan Kafka.
+
