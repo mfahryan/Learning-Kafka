@@ -552,11 +552,7 @@ dan hasil pada KTable nya :
 ## 6.Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
 
 
-
-
-
-
-
+![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a984df04-7ca7-47f6-ba64-6ae69f42c8c3)
 
 
 
