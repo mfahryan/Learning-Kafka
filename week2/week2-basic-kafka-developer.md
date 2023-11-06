@@ -565,7 +565,8 @@ Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
 3. Domain: Ini adalah kumpulan nilai yang dapat diambil oleh atribut.
 
 ## 6.4 Keuntungan RDBMS
-- Kesederhanaan Model
+
+- **Kesederhanaan Model**
   Berbeda dengan jenis model database lainnya, model database relasional jauh lebih sederhana. Itu tidak memerlukan kueri yang rumit karena tidak memiliki pemrosesan atau 	 
   penataan kueri sehingga kueri SQL sederhana sudah cukup untuk menangani data.
 
