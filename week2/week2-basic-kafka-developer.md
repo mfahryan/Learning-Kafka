@@ -4,7 +4,7 @@ Dokumentasi ini berisi langkah-langkah yang saya pelajari saat belajar membangun
 ## 1. Basic-Kafka : Developer
 ### Langkah 1 : Start zookeeper dan kafka server
 ### Langkah 2 : Membangun Producer dengan Java
-2.1 Mulai mengikuti langkah yang dijelaskan pada laman berikut : [kafka documentation API Producer](https://kafka.apache.org/documentation/#producerapi)
+**2.1 Mulai mengikuti langkah yang dijelaskan pada laman berikut** : [kafka documentation API Producer](https://kafka.apache.org/documentation/#producerapi)
 
 Pada halaman ini jika ingin menggunakan producer kita harus memasukkan maven dependency seperti berikut.
 
@@ -18,7 +18,7 @@ Pada halaman ini jika ingin menggunakan producer kita harus memasukkan maven dep
 ```
 Untuk kegunaan maven dependency adalah dependency merupakan file arsip seperti JAR, ZIP, dll., yang perlu dikompilasi, dibuat, diuji, dan dijalankan oleh proyek. Ketergantungan proyek ini ditentukan dalam file pom.xml, Saat menjalankan build atau tujuan maven, dependency proyek ini diselesaikan dan kemudian diambil dari local repository
 
-2.2 Membuat Class Kafka Producer
+**2.2 Membuat Class Kafka Producer**
 
 Class producer sendiri sudah disediakan oleh apache kafka itu sendiri yang terdapat pada halaman web berikut: [Class Kafka Producer](https://kafka.apache.org/36/javadoc/org/apache/kafka/clients/producer/KafkaProducer.html)
 
@@ -72,7 +72,7 @@ producer.closes();
 
 ### Langkah 3 : Membangun Consumer dengan Java
 
-3.1 Mulai mengikuti langkah yang dijelaskan pada laman berikut
+**3.1 Mulai mengikuti langkah yang dijelaskan pada laman berikut**
 Pada halaman ini sama seperti sebelumnya kita harus memasukkan maven dependency seperti berikut. [Kafka Documentation API Consumer](https://kafka.apache.org/documentation/#consumerapi)
 ```
 <dependency>
@@ -82,7 +82,7 @@ Pada halaman ini sama seperti sebelumnya kita harus memasukkan maven dependency 
 </dependency>
 
 ```
-3.2 Membuat Class Consumer
+**3.2 Membuat Class Consumer**
 Class consumer sendiri sudah disediakan oleh apache kafka itu sendiri yang terdapat pada halaman web berikut:[Class Kafka Consumer](https://kafka.apache.org/36/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html)
 ```
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -125,7 +125,7 @@ disini saya ingin mengconsume data dari topic yang sudah saya kirim melalui prod
 
 ### Langkah 4 : Bangun Kafka Admin Client Java untuk melakukan Create dan Delete topic dengan Java
 
-4.1 Membuat Kafka Admin Client denga Java
+**4.1 Membuat Kafka Admin Client denga Java**
 Kafka Admin Client berguna mendukung pengelolaan dan pemeriksaan topik, broker, konfigurasi, dan ACL. Instance yang dikembalikan dari metode pembuatan antarmuka ini dijamin aman untuk thread.
 dengan code seperti berikut :
 
@@ -146,7 +146,7 @@ public class adminClient  {
         AdminClient admin = AdminClient.create(props);
 ```
 
-4.2 Membuat Create Topic dengan Admin Client
+**4.2 Membuat Create Topic dengan Admin Client**
 kita bisa membuat topic langsung dengan menggunakan code seperti berikut :
 
 ```
@@ -157,7 +157,7 @@ admin.createTopics(Collections.singleton(new NewTopic("week2", 3, (short) 1)));
 - 3 merupakan NUM_PARTITIONS atau number partitions yaitu jumlah partisi log per topik
 - 1 merupakan REP_FACTOR atau replication factor yaitu mengacu pada banyak salinan data yang disimpan di beberapa broker Kafka. Menyetel Faktor Replikasi Kafka memungkinkan Kafka menyediakan ketersediaan data yang tinggi dan mencegah kehilangan data jika broker down atau tidak dapat menangani permintaan.
 
-4.3 Membuat List Topic dengan Admin Client
+**4.3 Membuat List Topic dengan Admin Client**
 membuat list topic dengan menggunakan code seperti berikut : 
 
 ```
@@ -169,7 +169,7 @@ bertujuan agar kita dapat mengetahui topic apa saja yang sudah kita buat sebelum
 
 ![listtopic](https://github.com/mfahryan/Learning-Kafka/assets/112185850/ab6dc893-6a2f-4dd7-8abb-4e443eee7b11)
 
-4.4 Membuat Delete Topic
+**4.4 Membuat Delete Topic**
 membuat delete topic dengan menggunakan code seperti berikut :
 
 ```
@@ -190,7 +190,7 @@ Streams API dalam Apache Kafka adalah pustaka yang kuat dan ringan yang memungki
 
 Berikut adalah cara atau demo kafka streams
 
-5.1 Membangun Demo Kafka Streams
+**5.1 Membangun Demo Kafka Streams**
 Disini kita membuat Demo Kafka Streams dengan WordCount Application
 pertama kita membuat class di java
 
@@ -331,7 +331,7 @@ Dan jika kita jalanin streams akan running secara terus menerus seperti pada di 
 
 ![Screenshot from 2023-11-02 17-12-30](https://github.com/mfahryan/Learning-Kafka/assets/112185850/1bd5699e-f824-47e3-9cd9-cd119299ff4b)
 
-5.2 Membuat Producer Kafka Streams
+**5.2 Membuat Producer Kafka Streams**
 
 Disini saya membangun Producer dengan:
 ```
@@ -346,7 +346,7 @@ give me someone to being grateful
 
 ```
 
-5.3 Membuat Consumer Kafka Streams
+**5.3 Membuat Consumer Kafka Streams**
 
 Disini saya membangun Consumer dengan Pesan yang akan diproses oleh aplikasi Wordcount dan data keluaran berikut akan ditulis ke topik stream-wordcount-output dan dicetak oleh konsumen konsol: disini saya membuat topik keluaran dengan pemadatan diaktifkan karena aliran keluaran adalah aliran log perubahan: 
 ```
@@ -397,7 +397,7 @@ jika ditabelkan maka hasilnya seperti gambar dibawah :
 
 ![table2 drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9976403a-a7a2-491a-b5c0-75e94dabb14d)
 
-5.4 Membuat Ktable
+**5.4 Membuat Ktable**
 
 Ktable merupakan "Sepotong peristiwa/slice of events" dari stream pada titik waktu tertentu - sering kali merupakan "waktu terkini".
 
@@ -549,7 +549,7 @@ dan hasil pada KTable nya :
 
 `8400`
 
-# 6.Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
+# 6. Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
 ## 6.1 Database management system
 DBMS adalah singkatan dari sistem manajemen basis data. Sistem Manajemen Basis Data dapat didefinisikan sebagai perangkat lunak yang membantu dalam mengatur, mengendalikan dan menggunakan data yang dibutuhkan oleh program aplikasi. Mereka menyediakan fasilitas untuk membuat dan memelihara database yang terorganisir dengan baik. Sistem ini terutama digunakan untuk mengembangkan dan menganalisis database pengguna tunggal dan tidak dimaksudkan untuk dibagikan melalui jaringan atau Internet, melainkan diinstal pada perangkat dan bekerja dengan satu pengguna pada satu waktu.
 
@@ -565,49 +565,64 @@ Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
 3. Domain: Ini adalah kumpulan nilai yang dapat diambil oleh atribut.
 
 ## 6.4 Keuntungan RDBMS
-- Meningkatkan kemudahan berbagi data dan pembentukan aplikasi baru dengan cepat.
+- Kesederhanaan Model
+  Berbeda dengan jenis model database lainnya, model database relasional jauh lebih sederhana. Itu tidak memerlukan kueri yang rumit karena tidak memiliki pemrosesan atau 	 
+  penataan kueri sehingga kueri SQL sederhana sudah cukup untuk menangani data.
 
-- Mendukung struktur data sederhana, yaitu tabel atau relasi.
+- **Kemudahan penggunaan**
+  Pengguna dapat dengan mudah mengakses/mengambil informasi yang diperlukan dalam hitungan detik tanpa harus terlibat dalam kompleksitas database. Structured Query Language (SQL) 
+  digunakan untuk mengeksekusi query yang kompleks.
 
-- Batasi pengulangan atau redundansi data.
+- **Ketepatan**
+  Fitur utama dari database relasional adalah database tersebut didefinisikan secara ketat dan terorganisir dengan baik, sehingga data tidak terduplikasi. Basis data relasional 
+  memiliki keakuratan karena strukturnya tanpa duplikasi data.
 
-- Menghindari inkonsistensi data dengan menyimpan data di satu tempat dan karenanya memberikan integritas yang lebih baik.
+- **Integritas data**
+  Basis data RDBMS juga banyak digunakan untuk integritas data karena memberikan konsistensi di semua tabel. Integritas data memastikan fitur-fitur seperti akurasi dan kemudahan  
+  Penggunaan.
 
-- Pengguna tidak perlu menyadari objek yang mendasarinya karena memberikan independensi data fisik.
+- **Normalisasi**
+  Ketika data menjadi semakin kompleks, kebutuhan akan cara penyimpanan yang efisien pun semakin meningkat. Normalisasi adalah metode yang memecah informasi menjadi beberapa 
+  bagian yang dapat dikelola untuk mengurangi ukuran penyimpanan. Data dapat dipecah menjadi beberapa level yang berbeda dengan level mana pun yang memerlukan persiapan sebelum 
+  berpindah ke level lain untuk menormalkan data Anda.
 
-- Menawarkan independensi basis data logis, data dapat dilihat dengan cara yang berbeda oleh pengguna yang berbeda.
+  Normalisasi basis data juga memastikan bahwa basis data relasional tidak memiliki variasi atau varian dalam strukturnya dan dapat dimanipulasi secara akurat. Hal ini memastikan   Integritas tetap terjaga saat menggunakan data dari database ini untuk keputusan bisnis Anda.
 
-- Perluasan mudah dilakukan dengan menambahkan tampilan data baru sesuai kebutuhan.
+- **Kolaborasi**
+  Beberapa pengguna dapat mengakses database untuk mengambil informasi pada saat yang sama dan bahkan jika data sedang diperbarui.
 
-- Mendukung kueri satu kali menggunakan SQL atau bahasa lain yang sesuai.
-  Prosedur pencadangan dan pemulihan yang lebih baik.
-
-- Menyediakan banyak antarmuka.
-
-- Memecahkan banyak masalah yang ditimbulkan oleh model data lain. Kemampuan menangani tipe data sederhana secara efisien.
-
-- Banyak pengguna dapat mengakses, yang tidak mungkin dilakukan di DBMS.
+- **Keamanan**
+  Data aman karena Sistem Manajemen Basis Data Relasional hanya mengizinkan pengguna yang berwenang untuk mengakses data secara langsung. Tidak ada pengguna yang tidak sah yang 
+  dapat mengakses informasi tersebut.
 
 ## 6.5 Kekurangan RDBMS
 
-- Perangkat lunak basis data relasional mahal.
+- **Masalah Pemeliharaan**
+  Pemeliharaan database relasional menjadi sulit seiring berjalannya waktu karena bertambahnya data. Pengembang dan pemrogram harus menghabiskan banyak waktu untuk memelihara 
+  database.
 
-- Perangkat lunak yang kompleks berarti perangkat keras yang mahal.
+- **Biaya**
+  Sistem database relasional mahal untuk diatur dan dipelihara. Biaya awal untuk perangkat lunaknya saja bisa sangat mahal untuk bisnis kecil, namun akan menjadi lebih buruk jika 
+  Anda mempertimbangkan untuk menyewa teknisi profesional yang juga harus memiliki keahlian dengan jenis program tertentu.
 
-- Memerlukan pengetahuan yang terampil untuk menerapkannya.
+- **Penyimpanan Fisik**
+  Basis data relasional terdiri dari baris dan kolom, yang memerlukan banyak memori fisik karena setiap operasi yang dilakukan bergantung pada penyimpanan terpisah. Kebutuhan  
+  Memori fisik dapat meningkat seiring dengan bertambahnya data.
 
-- Aplikasi tertentu pemrosesannya lebih lambat.
+- **Kurangnya Skalabilitas**
+  Saat menggunakan database relasional melalui beberapa server, strukturnya berubah dan menjadi sulit untuk ditangani, terutama ketika jumlah datanya besar. Oleh karena itu, data 
+  tidak dapat diskalakan pada server penyimpanan fisik yang berbeda. Pada akhirnya, kinerjanya terpengaruh, misalnya kurangnya ketersediaan data dan waktu buka, dll. Ketika basis 
+  data menjadi lebih besar atau lebih terdistribusi dengan jumlah server yang lebih banyak, hal ini akan berdampak negatif seperti masalah latensi dan ketersediaan yang 
+  memengaruhi kinerja secara keseluruhan.
 
-- Meningkatkan kerentanan.
+- **Kompleksitas dalam Struktur**
+  Basis data relasional hanya dapat menyimpan data dalam bentuk tabel sehingga sulit untuk merepresentasikan hubungan kompleks antar objek. Ini merupakan masalah karena banyak 
+  aplikasi memerlukan lebih dari satu tabel untuk menyimpan semua data penting yang diperlukan oleh logika aplikasinya.
 
-- Lebih sulit untuk memulihkan jika data hilang.
-
-- Dilihat sebagai representasi buruk dari dunia nyata.
-
-- Sulit untuk mewakili hierarki.
-
-- Sulit untuk merepresentasikan tipe data yang kompleks.
-
+- **Penurunan kinerja seiring waktu**
+  Basis data relasional bisa menjadi lebih lambat, bukan hanya karena ketergantungannya pada banyak tabel. Ketika terdapat banyak tabel dan data dalam sistem, hal ini menyebabkan 
+  peningkatan kompleksitas. Hal ini dapat menyebabkan waktu respons yang lambat atas pertanyaan atau bahkan kegagalan total tergantung pada berapa banyak orang yang masuk ke  
+  Server pada waktu tertentu.
 
 
 ![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a984df04-7ca7-47f6-ba64-6ae69f42c8c3)
