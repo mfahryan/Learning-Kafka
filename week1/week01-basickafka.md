@@ -140,6 +140,8 @@ Untuk melakukan pengecekannya saya masih perlu waktu untuk belajar terkait hal i
 
 ![clusterid](https://github.com/mfahryan/Learning-Kafka/assets/112185850/bb237258-9ee0-4c80-a194-9c083627e6d2)
 
+untuk memastikan bahwa semua node Kafka dalam klaster adalah anggota klaster yang sama dan berbagi informasi dan struktur yang sama. Kesalahan klaster yang tidak valid terjadi ketika ID klaster yang diharapkan untuk Kafka dan ID klaster dalam ZooKeeper tidak cocok
+
 
 Dengan langkah-langkah ini, saya telah berhasil memahami dasar-dasar Apache Kafka, termasuk deploy Kafka cluster dan running lewat systemd, membuat topic, serta meng-produce dan meng-consume data. Selain itu, saya juga dapat memastikan keberhasilan cluster ZooKeeper dan mendapatkan informasi tentang Kafka cluster ID.
 
