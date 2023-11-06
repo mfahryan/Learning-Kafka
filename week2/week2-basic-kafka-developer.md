@@ -549,6 +549,8 @@ dan hasil pada KTable nya :
 
 `8400`
 
+## 6.Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
+
 
 
 
