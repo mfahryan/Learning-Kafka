@@ -549,7 +549,65 @@ dan hasil pada KTable nya :
 
 `8400`
 
-## 6.Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
+# 6.Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
+## 6.1 Database management system
+DBMS adalah singkatan dari sistem manajemen basis data. Sistem Manajemen Basis Data dapat didefinisikan sebagai perangkat lunak yang membantu dalam mengatur, mengendalikan dan menggunakan data yang dibutuhkan oleh program aplikasi. Mereka menyediakan fasilitas untuk membuat dan memelihara database yang terorganisir dengan baik. Sistem ini terutama digunakan untuk mengembangkan dan menganalisis database pengguna tunggal dan tidak dimaksudkan untuk dibagikan melalui jaringan atau Internet, melainkan diinstal pada perangkat dan bekerja dengan satu pengguna pada satu waktu.
+
+Berbagai operasi yang dapat dilakukan pada file-file ini antara lain menambahkan file baru ke database, menghapus file yang ada dari database, memasukkan data ke dalam file yang sudah ada, mengubah data di file yang sudah ada, menghapus data di file yang sudah ada, dan mengambil atau menanyakan data dari file yang sudah ada. . Paket DBMS umumnya menyediakan antarmuka untuk melihat dan mengubah desain database, membuat query, dan mengembangkan laporan. Sistem Manajemen Basis Data yang tersedia secara komersial adalah Oracle, MySQL, SQL Server dan DB2 dll., sedangkan Microsoft Access dan Open Office Base adalah contoh DBMS pribadi.
+
+
+
+## 6.3 Apa itu RDBMS(Relational Data Base Management System)
+RDBMS adalah singkatan dari sistem manajemen basis data relasional. Basis Data Relasional memungkinkan definisi data dan strukturnya, operasi penyimpanan dan pengambilan, serta batasan integritas yang dapat diatur dalam struktur Tabel. Tabel adalah kumpulan catatan, dan setiap catatan dalam tabel berisi bidang yang sama, yang menentukan sifat data yang disimpan dalam tabel. Catatan adalah salah satu contoh dari sekumpulan bidang dalam tabel.
+Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
+1. Relasi : adalah tabel dengan kolom dan baris
+2. Atribut: Kolom yang diberi nama pada relasi disebut atribut (bidang); Dan
+3. Domain: Ini adalah kumpulan nilai yang dapat diambil oleh atribut.
+
+## 6.4 Keuntungan RDBMS
+- Meningkatkan kemudahan berbagi data dan pembentukan aplikasi baru dengan cepat.
+
+- Mendukung struktur data sederhana, yaitu tabel atau relasi.
+
+- Batasi pengulangan atau redundansi data.
+
+- Menghindari inkonsistensi data dengan menyimpan data di satu tempat dan karenanya memberikan integritas yang lebih baik.
+
+- Pengguna tidak perlu menyadari objek yang mendasarinya karena memberikan independensi data fisik.
+
+- Menawarkan independensi basis data logis, data dapat dilihat dengan cara yang berbeda oleh pengguna yang berbeda.
+
+- Perluasan mudah dilakukan dengan menambahkan tampilan data baru sesuai kebutuhan.
+
+- Mendukung kueri satu kali menggunakan SQL atau bahasa lain yang sesuai.
+  Prosedur pencadangan dan pemulihan yang lebih baik.
+
+- Menyediakan banyak antarmuka.
+
+- Memecahkan banyak masalah yang ditimbulkan oleh model data lain. Kemampuan menangani tipe data sederhana secara efisien.
+
+- Banyak pengguna dapat mengakses, yang tidak mungkin dilakukan di DBMS.
+
+## 6.5 Kekurangan RDBMS
+
+- Perangkat lunak basis data relasional mahal.
+
+- Perangkat lunak yang kompleks berarti perangkat keras yang mahal.
+
+- Memerlukan pengetahuan yang terampil untuk menerapkannya.
+
+- Aplikasi tertentu pemrosesannya lebih lambat.
+
+- Meningkatkan kerentanan.
+
+- Lebih sulit untuk memulihkan jika data hilang.
+
+- Dilihat sebagai representasi buruk dari dunia nyata.
+
+- Sulit untuk mewakili hierarki.
+
+- Sulit untuk merepresentasikan tipe data yang kompleks.
+
 
 
 ![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a984df04-7ca7-47f6-ba64-6ae69f42c8c3)
