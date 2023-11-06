@@ -406,6 +406,156 @@ jadi tabel adalah tampilan event stream. dan tampilan ini terus diupdate setiap 
 tabel juga dapat berupa kumpulan peristiwa atau data aliran, misalnya jika tweet oleh mr bond dianggap sebagai "Stream" maka jika kita menggabungkan jumlah tweet dalam 30 kali terakhir, maka itu akan menjadi tabel kafka atau Ktable
 
 tabel kafka bisa berubah. baris acara baru dapat disisipkan, dan baris yang ada dapat diperbarui dan dihapus
+mungkin jika buat dalam gamber seperti ini :
+
+![ktable drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/d7fe265a-3ee0-4707-958f-21cce6ef02e3)
+
+jadi disini kita demo dengan java dan ingin men-stream nilai 
+
+```
+var rawRecords = List.of(
+                            "orderNumber-1001",
+                            "orderNumber-5000",
+                            "orderNumber-999",
+                            "orderNumber-3330",
+                            "bogus-1",
+                            "bogus-2",
+                            "orderNumber-1003");
+
+```
+
+setalah itu kita ingin membuat table dengan cara :
+1. Pertama kita membuat topic input,output ktable, dan membuat value apa yang ingin kita ambil
+
+   ```
+   final String inputTopic = "inputKtable";
+   final String outputTopic = "outputKtable";
+   final String orderNumberStart = "orderNumber-", bogusStart = "bogus-";
+
+   ```
+2.  Lalu membuat stream builder metode table dengan variable inputtopic
+   ```
+
+   KTable<String, String> firstKTable = builder.table(inputTopic,
+                Materialized.<String, String, KeyValueStore<Bytes, byte[]>>as("ktable-store")
+                        .withKeySerde(Serdes.String())
+                        .withValueSerde(Serdes.String()));
+
+   ```
+
+3. Memfilter Ktable dengan variable orderNumberStart dan BogusStart
+   
+   ```
+   firstKTable.filter((key, value) -> value.contains(orderNumberStart) || value.contains(bogusStart))
+                .mapValues(value -> value.substring(value.indexOf("-") + 1))
+                .filter((key, value) -> Long.parseLong(value) > 1)
+                .toStream().peek((key, value) -> System.out.println("Outgoing record - key " +key+ " value " + value))
+                .to(outputTopic, Produced.with(Serdes.String(), Serdes.String()));
+
+   ```
+
+4. Lalu membuat Topic loader dan membuat class run producer dengan adminclient dimana value yang ingin kita load bisa kita ubah dengan mudah
+
+   ```
+    public class TopicLoader {
+            public static void main(String[] args) throws IOException {
+                runProducer();
+            }
+
+            public static void runProducer() throws IOException {
+                Properties props = new Properties();
+                props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+                props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+                props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
+                try (Admin adminClient = Admin.create(props);
+                     Producer<String, String> producer = new KafkaProducer<>(props)) {
+                    final String inputTopic = "inputKtable";
+                    final String outputTopic = "outputKtable";
+                    var topics = List.of(new NewTopic(inputTopic, 3, (short) 1), (new NewTopic(outputTopic, 3, (short) 1)));
+                    adminClient.createTopics(topics);
+
+                    Callback callback = (metadata, exception) -> {
+                        if (exception != null) {
+                            System.out.printf("Producing records encountered error %s %n", exception);
+                        } else {
+                            System.out.printf("Record produced - offset - %d timestamp - %d %n", metadata.offset(), metadata.timestamp());
+                        }
+
+                    };
+
+
+
+                    var rawRecords = List.of(
+                            "orderNumber-1001",
+                            "orderNumber-5000",
+                            "orderNumber-999",
+                            "orderNumber-3330",
+                            "bogus-1",
+                            "bogus-2",
+                            "orderNumber-1003");
+                    var producerRecords = rawRecords.stream().map(r -> new ProducerRecord<String, String>(inputTopic, "order-key", r)).toList();
+                    producerRecords.forEach((pr -> producer.send(pr, callback)));
+                }
+            }
+        }
+
+   ```
+
+5. Lalu di Ktable kita memanggil dan membuat streams agar untuk run producer di topic loader
+
+   ```
+    try (KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), props)) {
+            final CountDownLatch shutdownLatch = new CountDownLatch(1);
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                kafkaStreams.close(Duration.ofSeconds(2));
+                shutdownLatch.countDown();
+            }));
+            TopicLoader.runProducer();
+            try {
+                kafkaStreams.start();
+                shutdownLatch.await();
+            } catch (Throwable e) {
+                System.exit(1);
+            }
+        }
+    System.exit(0);
+
+    }
+}
+
+
+Lalu hasilnya jika kita masukkan value nya :
+
+```
+ var rawRecords = List.of(
+                            "orderNumber-1001",
+                            "orderNumber-5000",
+                            "orderNumber-999",
+                            "orderNumber-3330",
+                            "bogus-1",
+                            "bogus-2",
+                            "orderNumber-8400");
+
+```
+
+maka hasilnya adalah :
+
+![streams1](https://github.com/mfahryan/Learning-Kafka/assets/112185850/6a4675f4-e437-4253-a456-1c8820cc26ea)
+
+dan hasil pada KTable nya :
+
+`8400`
+
+
+
+
+
+
+
+
 
 
 
