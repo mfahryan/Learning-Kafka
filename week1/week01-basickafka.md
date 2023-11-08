@@ -24,7 +24,7 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-User=permaditya
+User=user
 ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
 ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
@@ -61,7 +61,7 @@ After=network.target remote-fs.target
 
 [Service]
 Type=simple
-User=permaditya
+User=user
 ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
 ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
 Restart=on-abnormal
