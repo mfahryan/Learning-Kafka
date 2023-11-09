@@ -550,21 +550,22 @@ dan hasil pada KTable nya :
 `8400`
 
 # 6. Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
-## 6.1 Database management system
+## 6.1 Apa itu RDBMS
+### 6.1.1 Database management system
 DBMS adalah singkatan dari sistem manajemen basis data. Sistem Manajemen Basis Data dapat didefinisikan sebagai perangkat lunak yang membantu dalam mengatur, mengendalikan dan menggunakan data yang dibutuhkan oleh program aplikasi. Mereka menyediakan fasilitas untuk membuat dan memelihara database yang terorganisir dengan baik. Sistem ini terutama digunakan untuk mengembangkan dan menganalisis database pengguna tunggal dan tidak dimaksudkan untuk dibagikan melalui jaringan atau Internet, melainkan diinstal pada perangkat dan bekerja dengan satu pengguna pada satu waktu.
 
 Berbagai operasi yang dapat dilakukan pada file-file ini antara lain menambahkan file baru ke database, menghapus file yang ada dari database, memasukkan data ke dalam file yang sudah ada, mengubah data di file yang sudah ada, menghapus data di file yang sudah ada, dan mengambil atau menanyakan data dari file yang sudah ada. . Paket DBMS umumnya menyediakan antarmuka untuk melihat dan mengubah desain database, membuat query, dan mengembangkan laporan. Sistem Manajemen Basis Data yang tersedia secara komersial adalah Oracle, MySQL, SQL Server dan DB2 dll., sedangkan Microsoft Access dan Open Office Base adalah contoh DBMS pribadi.
 
 
 
-## 6.3 Apa itu RDBMS(Relational Data Base Management System)
+### 6.1.2 Apa itu RDBMS(Relational Data Base Management System)
 RDBMS adalah singkatan dari sistem manajemen basis data relasional. Basis Data Relasional memungkinkan definisi data dan strukturnya, operasi penyimpanan dan pengambilan, serta batasan integritas yang dapat diatur dalam struktur Tabel. Tabel adalah kumpulan catatan, dan setiap catatan dalam tabel berisi bidang yang sama, yang menentukan sifat data yang disimpan dalam tabel. Catatan adalah salah satu contoh dari sekumpulan bidang dalam tabel.
 Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
 1. Relasi : adalah tabel dengan kolom dan baris
 2. Atribut: Kolom yang diberi nama pada relasi disebut atribut (bidang); Dan
 3. Domain: Ini adalah kumpulan nilai yang dapat diambil oleh atribut.
 
-## 6.4 Keuntungan RDBMS
+### 6.1.3 Keuntungan RDBMS
 
 - **Kesederhanaan Model**
   Berbeda dengan jenis model database lainnya, model database relasional jauh lebih sederhana. Itu tidak memerlukan kueri yang rumit karena tidak memiliki pemrosesan atau 	 
@@ -596,7 +597,7 @@ Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
   Data aman karena Sistem Manajemen Basis Data Relasional hanya mengizinkan pengguna yang berwenang untuk mengakses data secara langsung. Tidak ada pengguna yang tidak sah yang 
   dapat mengakses informasi tersebut.
 
-## 6.5 Kekurangan RDBMS
+### 6.1.4 Kekurangan RDBMS
 
 - **Masalah Pemeliharaan**
   Pemeliharaan database relasional menjadi sulit seiring berjalannya waktu karena bertambahnya data. Pengembang dan pemrogram harus menghabiskan banyak waktu untuk memelihara 
@@ -624,6 +625,123 @@ Tiga istilah kunci yang digunakan secara luas dalam model database relasional:
   Basis data relasional bisa menjadi lebih lambat, bukan hanya karena ketergantungannya pada banyak tabel. Ketika terdapat banyak tabel dan data dalam sistem, hal ini menyebabkan 
   peningkatan kompleksitas. Hal ini dapat menyebabkan waktu respons yang lambat atas pertanyaan atau bahkan kegagalan total tergantung pada berapa banyak orang yang masuk ke  
   Server pada waktu tertentu.
+
+
+## 6.2 Membuat Connector Menggunakan Kafka Connect dan Melakukan Koneksi Ke RDBMS
+### 6.2.1 Cara Melakukan Kafka Connect dan Plugin Connector JDBC dan Mysql-Connector
+Untuk start kafka connect sangat mirip dengan start broker yaitu memanggil script awal dengan file properti :
+`bin/connect-distributed.sh config/connect-distributed.properties`
+Ada beberapa konfigurasi utama untuk Connect workers :
+  1. bootstrap.servers
+  2. group.id
+  3. plugin.path
+  4. key.converter and value.converter
+  5. rest.host.name and rest.port
+ 
+Setelah pekerja aktif dan Anda memiliki sebuah cluster, pastikan cluster tersebut sudah aktif dan berjalan
+memeriksa REST API:
+`curl http://localhost:8083/`
+`{"version":"3.6.0","commit":"60e845626d8a465a","kafka_cluster_id":"AK1_SnLZSo-ZRQZ8VgEUGg"}`
+
+setelah itu check connector plugin dengan :
+`curl http://localhost:8083/connector-plugins`
+
+![connectorplugins](https://github.com/mfahryan/Learning-Kafka/assets/112185850/5d824ace-32ca-49d3-b6c3-04fb8fa903fd)
+
+disini saya sudah berhasil meng-input connector JDBC(Java Data Base Connector) kedalam Kafka connector.
+
+lalu selanjutnya download mysql-connector dari web [Kafka-Connector](https://client.hub.confluent.io/confluent-hub-client-latest.tar.gz)
+setelah berhasil download Sekarang kita perlu memuat konektor ini dengan cara :
+1. Buat direktori, seperti /opt/connectors/jdbc
+2. Dan perbarui config/connect-distributed.properties untuk menyertakan plugin.path=/opt/connectors/jbc
+
+### 6.2.2 Membuat Tabel di MySql dan Streaming ke Kafka menggunakan JDBC Connector
+
+Pertama saya masuk melalui server mysql :
+
+```
+mysql -u root -p
+
+mysql> create database test;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use test;
+Database changed
+
+mysql> create table login (username varchar(30), login_time datetime);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into login values ('gwenchana', now());
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into login values ('are you okay?', now());
+Query OK, 1 row affected (0.00 sec)
+
+```
+Seperti yang Anda lihat, kami membuat database dan tabel, dan menyisipkan beberapa baris sebagai contoh.
+
+Langkah selanjutnya adalah mengkonfigurasi konektor sumber JDBC kami. Kita dapat mengetahui opsi konfigurasi mana yang tersedia dengan melihat dokumentasinya, namun kita juga dapat menggunakan REST API untuk menemukan opsi konfigurasi yang tersedia:
+
+```
+curl -X PUT -d '{"connector.class":"JdbcSource"}' localhost:8083/connector-plugins/JdbcSourceConnector/config/validate/ --header "content-Type:application/json"
+
+```
+
+```
+{
+"configs": [
+{
+"definition": {
+"default_value": "",
+"dependents": [],
+"display_name": "Timestamp Column Name",
+"documentation": "The name of the timestamp column to use
+to detect new or modified rows. This column may not be
+nullable.",
+"group": "Mode",
+"importance": "MEDIUM",
+"name": "timestamp.column.name",
+"order": 3,
+"required": false,
+"type": "STRING",
+"width": "MEDIUM"
+},
+<more stuff>
+```
+
+Kami meminta REST API untuk memvalidasi konfigurasi konektor dan mengirimkannya konfigurasi hanya dengan nama kelas (ini adalah konfigurasi minimum yang diperlukan). Sebagai tanggapan, kami mendapatkan definisi JSON dari semua konfigurasi yang tersedia.
+
+Dengan mengingat informasi ini, saatnya membuat dan mengonfigurasi konektor JDBC kita:
+
+```
+echo '{"name":"mysql-login-connector", "config":{"connector.class":"io.confluent.connect.jdbc.JdbcSourceConnector","connection.url":"jdbc:mysql://127.0.0.1:3306/test?user=root&password=F#####","mode":"timestamp","table.whitelist":"login","vali-
+date.non.null":false,"timestamp.column.name":"login_time","topic.pre-fix":"mysql."}}' | curl -X POST -d @- http://localhost:8083/connectors --header "content Type:application/json"
+
+```
+
+Mari kita pastikan ini berhasil dengan membaca data dari topik mysql.login:
+
+![consumerkafkaconnect](https://github.com/mfahryan/Learning-Kafka/assets/112185850/ed93bce0-a207-48f7-b61a-7e90b6f257f2)
+
+Setelah konektor berjalan, jika Anda memasukkan baris tambahan di tabel login, akan segera melihatnya tercermin dalam topik mysql.login.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+  
+
+
+
+  
 
 
 ![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a984df04-7ca7-47f6-ba64-6ae69f42c8c3)
