@@ -726,6 +726,7 @@ Setelah konektor berjalan, jika Anda memasukkan baris tambahan di tabel login, a
 
 
 
+![kafka](https://github.com/mfahryan/Learning-Kafka/assets/112185850/d6a7956c-d259-4be3-b6e7-6482d3a5d15e)
 
 
 
@@ -744,7 +745,7 @@ Setelah konektor berjalan, jika Anda memasukkan baris tambahan di tabel login, a
   
 
 
-![JDBC-connector](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a984df04-7ca7-47f6-ba64-6ae69f42c8c3)
+
 
 
 
