@@ -724,7 +724,7 @@ Mari kita pastikan ini berhasil dengan membaca data dari topik mysql.login:
 
 Setelah konektor berjalan, jika Anda memasukkan baris tambahan di tabel login, akan segera melihatnya tercermin dalam topik mysql.login.
 
-dan ini dinamakan connector sources dikarenakan dari Database ke kafka yang dapat dilihat pada gambar
+dan ini dinamakan connector sources dikarenakan dari Database ke kafka yang dapat dilihat pada gambar.
 
 ![kafka](https://github.com/mfahryan/Learning-Kafka/assets/112185850/d6a7956c-d259-4be3-b6e7-6482d3a5d15e)
 
