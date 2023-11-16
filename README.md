@@ -54,3 +54,9 @@ Konektor MySQL Kafka adalah alat yang berguna untuk mengalirkan data dari databa
 
 Konektor MySQL Kafka mendukung berbagai format data seperti Avro, Skema JSON, Protobuf, atau JSON untuk menyinkronkan semua peristiwa database untuk setiap tabel database sebagai Topik Kafka terpisah. Dengan menggunakan MySQL ke Kafka Connector, Anda dapat mentransfer data penting yang berada di tabel database MySQL Anda seperti informasi pelanggan, dan data pemangku kepentingan, serta melakukan Pemrosesan Aliran pada data ini menggunakan fungsi bawaan Kafka.
 
+
+## control center
+kesalahan saya mengurangi partisi yang sudah dibuat 12 lalu saya buat menjadi 2
+alhasil control center tidak bisa berjalan 
+
+
