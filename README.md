@@ -59,4 +59,7 @@ Konektor MySQL Kafka mendukung berbagai format data seperti Avro, Skema JSON, Pr
 kesalahan saya mengurangi partisi yang sudah dibuat 12 lalu saya buat menjadi 2
 alhasil control center tidak bisa berjalan 
 
+## offset topic
+untuk melacak kemajuan kelompok konsumen saat mereka menggunakan pesan dari topik Kafka.
+
 
