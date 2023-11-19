@@ -30,4 +30,29 @@ sudo yum clean all && \
 sudo yum install confluent-platform && \
 sudo yum install confluent-security
 ```
-5.
+5. Jika sudah membuat confluent home nya dan export path nya selanjutnya koonfigurasi zookeeper.properties(`/etc/kafka/zookeeper.properties`), server.properties (`/etc/kafka/server.properties`), confluent control center properties (`/etc/confluent-control-center/control-center-production.properties`), Kafka Connect properties file (/etc/kafka/connect-distributed.properties), Confluent REST Proxy properties file (/etc/kafka-rest/kafka-rest.properties), dan Schema Registry properties file (/etc/schema-registry/schema-registry.properties
+
+## 2. Menjalankan C3 (Confluent Control Center)
+
+untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi cara menjalankannya sebagai berikut : 
+1. Menjalankan confluent-zookeeper dengan
+   `sudo systemctl start confluent-zookeeper`
+2. Menjalankan confluent-server
+   `sudo systemctl start confluent-server`
+3. Menjalankan Schema-registry
+   `sudo systemctl start confluent-schema-registry`
+4. Selanjutnya ada beberapa komponen di Confluent Platform seperti
+   - Control Center
+   `sudo systemctl start confluent-control-center`
+   
+   - Kafka Connect
+
+   `sudo systemctl start confluent-kafka-connect`
+
+   - Confluent REST Proxy
+   `sudo systemctl start confluent-kafka-rest`
+
+   - KsqlDB
+   `sudo systemctl start confluent-ksqldb`
+
+
