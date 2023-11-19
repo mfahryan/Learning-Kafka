@@ -36,13 +36,21 @@ sudo yum install confluent-security
 
 untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi cara menjalankannya sebagai berikut : 
 1. Menjalankan confluent-zookeeper dengan
+   
    `sudo systemctl start confluent-zookeeper`
-2. Menjalankan confluent-server
+   
+3. Menjalankan confluent-server
+   
    `sudo systemctl start confluent-server`
-3. Menjalankan Schema-registry
+   
+4. Menjalankan Schema-registry
+   
    `sudo systemctl start confluent-schema-registry`
-4. Selanjutnya ada beberapa komponen di Confluent Platform seperti
+   
+5. Selanjutnya ada beberapa komponen di Confluent Platform seperti
+   
    - Control Center
+     
    `sudo systemctl start confluent-control-center`
    
    - Kafka Connect
