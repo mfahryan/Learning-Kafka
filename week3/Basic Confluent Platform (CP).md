@@ -81,6 +81,8 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
 
 ![Screenshot from 2023-11-19 19-00-45](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a4c44ea3-8a1b-40d7-8ec6-5f5ce53e0936)
 
+![Screenshot from 2023-11-19 19-00-52](https://github.com/mfahryan/Learning-Kafka/assets/112185850/92d6de71-115c-4e8e-bd27-32e5e0796728)
+
 ![Screenshot from 2023-11-19 19-01-31](https://github.com/mfahryan/Learning-Kafka/assets/112185850/7f5f4ebb-a976-4768-a851-ef8c02242336)
 
 curl -X POST \
