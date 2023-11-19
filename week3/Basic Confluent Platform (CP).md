@@ -65,6 +65,7 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
      
    `sudo systemctl start confluent-ksqldb`
 
+![c3](https://github.com/mfahryan/Learning-Kafka/assets/112185850/5ebb6eeb-b568-4eda-bed9-0ebba9ef62f6)
 
 ![buattopicc3](https://github.com/mfahryan/Learning-Kafka/assets/112185850/c8464027-65ad-421f-aed3-56b11ca4e5a7)
 
@@ -78,17 +79,21 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
 
 ![Screenshot from 2023-11-19 18-58-18](https://github.com/mfahryan/Learning-Kafka/assets/112185850/bccd7174-6941-4ec9-babd-103024f2e688)
 
+![Screenshot from 2023-11-19 19-00-45](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a4c44ea3-8a1b-40d7-8ec6-5f5ce53e0936)
 
+![Screenshot from 2023-11-19 19-01-31](https://github.com/mfahryan/Learning-Kafka/assets/112185850/7f5f4ebb-a976-4768-a851-ef8c02242336)
 
+curl -X POST \
+     -H "Content-Type: application/vnd.kafka.json.v2+json" \
+     -H "Accept: application/vnd.kafka.v2+json" \
+     --data '{"records":[{"key":"jsmith","value":"alarm clocks"},{"key":"htanaka","value":"batteries"},{"key":"awalther","value":"bookshelves"}]}' \
+     "http://br1kafka.dev.alldataint.com:8082/topics/purchases"
 
-
-![c3](https://github.com/mfahryan/Learning-Kafka/assets/112185850/5ebb6eeb-b568-4eda-bed9-0ebba9ef62f6)
+![topicrest](https://github.com/mfahryan/Learning-Kafka/assets/112185850/b27c8668-7eca-430c-8fe9-1cff5f128c77)
 
 ![consumec3purchases](https://github.com/mfahryan/Learning-Kafka/assets/112185850/11278e8a-7533-490f-9069-0d047da86bd6)
 
-![consumeconfluent](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9c47df28-f5fa-48b6-89d1-4f74613defd9)
 
-![topicrest](https://github.com/mfahryan/Learning-Kafka/assets/112185850/b27c8668-7eca-430c-8fe9-1cff5f128c77)
 
 
 
