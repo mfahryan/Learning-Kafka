@@ -58,9 +58,44 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
    `sudo systemctl start confluent-kafka-connect`
 
    - Confluent REST Proxy
+     
    `sudo systemctl start confluent-kafka-rest`
 
    - KsqlDB
+     
    `sudo systemctl start confluent-ksqldb`
+
+
+![buattopicc3](https://github.com/mfahryan/Learning-Kafka/assets/112185850/c8464027-65ad-421f-aed3-56b11ca4e5a7)
+
+![Screenshot from 2023-11-19 18-57-33](https://github.com/mfahryan/Learning-Kafka/assets/112185850/77140271-ad4b-47a8-9eb6-4ef11830dca9)
+
+![Screenshot from 2023-11-19 18-57-53](https://github.com/mfahryan/Learning-Kafka/assets/112185850/6960be60-a504-48a6-b085-0eefaa35e4ed)
+
+![Screenshot from 2023-11-19 18-58-04](https://github.com/mfahryan/Learning-Kafka/assets/112185850/7a501e55-94ca-4fa3-a5df-76a75154a977)
+
+![Screenshot from 2023-11-19 18-58-13](https://github.com/mfahryan/Learning-Kafka/assets/112185850/8245bbec-1df2-4b57-bfcb-2edc86f7eba0)
+
+![Screenshot from 2023-11-19 18-58-18](https://github.com/mfahryan/Learning-Kafka/assets/112185850/bccd7174-6941-4ec9-babd-103024f2e688)
+
+
+
+
+
+![c3](https://github.com/mfahryan/Learning-Kafka/assets/112185850/5ebb6eeb-b568-4eda-bed9-0ebba9ef62f6)
+
+![consumec3purchases](https://github.com/mfahryan/Learning-Kafka/assets/112185850/11278e8a-7533-490f-9069-0d047da86bd6)
+
+![consumeconfluent](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9c47df28-f5fa-48b6-89d1-4f74613defd9)
+
+![topicrest](https://github.com/mfahryan/Learning-Kafka/assets/112185850/b27c8668-7eca-430c-8fe9-1cff5f128c77)
+
+
+
+
+
+
+
+
 
 
