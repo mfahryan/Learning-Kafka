@@ -95,6 +95,20 @@ curl -X POST \
 
 ![consumec3purchases](https://github.com/mfahryan/Learning-Kafka/assets/112185850/11278e8a-7533-490f-9069-0d047da86bd6)
 
+#buat topic menggunakan rest
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" -H "Accept: application/vnd.kafka.v2+json"\
+--data '{"partitions": 3}' \
+  http://br1kafka.dev.alldataint.com:8082/topics/latihanpartisi
+  
+#produce meesage ke topic latihanpartisi
+
+for i in {1..10}
+do
+   curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+   --data '{"records":[{"key":"null","value":{"message":"Message '$i'"}}]}' \
+   http://br1kafka.dev.alldataint.com:8082/topics/latihanpartisi
+done
+
 
 
 
