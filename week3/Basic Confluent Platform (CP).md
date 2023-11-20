@@ -77,7 +77,7 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
 
 ![Screenshot from 2023-11-19 18-58-13](https://github.com/mfahryan/Learning-Kafka/assets/112185850/8245bbec-1df2-4b57-bfcb-2edc86f7eba0)
 
-delete : ngapusin pesan di partisi dalam topik kafka itu rentang nya 7 hari
+delete : ngapusin pesan di partisi dalam topik kafka itu rentang nya tergantung retention time mau berapa hari
 
 kalo compact : compact itu misal key unique nya disimpan terus kalo ada key yg sama maka key yg pertama masuk itu di apus.compact itu dia cuman pertahanin last message gtu untuk
 
