@@ -77,6 +77,19 @@ untuk menjalankan c3 cukup mudah karena saya disini masih memakai systemd jadi c
 
 ![Screenshot from 2023-11-19 18-58-13](https://github.com/mfahryan/Learning-Kafka/assets/112185850/8245bbec-1df2-4b57-bfcb-2edc86f7eba0)
 
+delete : ngapusin pesan di partisi dalam topik kafka itu rentang nya 7 hari
+
+kalo compact : compact itu misal key unique nya disimpan terus kalo ada key yg sama maka key yg pertama masuk itu di apus.compact itu dia cuman pertahanin last message gtu untuk
+
+setiap key terus yg message2 sebelumnya itu diapus
+
+pertanyaan : Kalau kita set compact dan key nya null apa yang terjadi?
+
+jawaban : jadi kalo key nya null itu berarti semua pesan itu punya key jadi tidak ada penghapusan dan tetep ada, jika key nya null semua pesan itu dianggap key nya sama
+
+delete+compact  = kita bisa ngatur ni penghapusan sama rentang waktu yg sesuai sama kebutuhan
+
+
 ![Screenshot from 2023-11-19 18-58-18](https://github.com/mfahryan/Learning-Kafka/assets/112185850/bccd7174-6941-4ec9-babd-103024f2e688)
 
 ![Screenshot from 2023-11-19 19-00-45](https://github.com/mfahryan/Learning-Kafka/assets/112185850/a4c44ea3-8a1b-40d7-8ec6-5f5ce53e0936)
