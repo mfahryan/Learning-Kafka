@@ -114,8 +114,16 @@ curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" -H "Accept: a
 --data '{"partitions": 3}' \
   http://br1kafka.dev.alldataint.com:8082/topics/latihanpartisi
   
-#produce meesage ke topic latihanpartisi
+#produce meesage ke topic latihanpartisi tanpa key
 
+for i in {1..10}
+do
+   curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+   --data '{"records":[{"value":{"message":"Message '$i'"}}]}' \
+   http://br1kafka.dev.alldataint.com:8082/topics/latihanpartisi
+done
+
+#produce meesage ke topic latihanpartisi key null
 for i in {1..10}
 do
    curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
