@@ -133,6 +133,58 @@ done
 
 
 
+CREATE STREAM readings (
+  sensor VARCHAR KEY,
+  reading DOUBLE,
+  area VARCHAR
+) WITH (
+  kafka_topic = 'readings',
+  value_format = 'json',
+  partitions = 3
+);
+
+
+CREATE TABLE brands (
+  sensor VARCHAR PRIMARY KEY,
+  brand_name VARCHAR
+) WITH (
+  kafka_topic = 'brands',
+  value_formant = 'json',
+  partitions = 3
+);
+
+INSERT INTO BRANDS(SENSOR, BRAND_NAME) VALUES ('sensor-1','Cassin Inc');
+INSERT INTO BRANDS(SENSOR, BRAND_NAME) VALUES ('sensor-2','Carrol Ltd');
+INSERT INTO BRANDS(SENSOR, BRAND_NAME) VALUES ('sensor-3','Hirthe Inc');
+INSERT INTO BRANDS(SENSOR, BRAND_NAME) VALUES ('sensor-4','Walker LLC');
+
+
+INSERT INTO readings(sensor, reading, area) VALUES ('sensor-1',45,'wheel');
+INSERT INTO readings(sensor, reading, area) VALUES ('sensor-2',41,'motor');
+INSERT INTO readings(sensor, reading, area) VALUES ('sensor-1',92,'wheel');
+INSERT INTO readings(sensor, reading, area) VALUES ('sensor-2',13,'engine');
+
+
+
+CREATE STREAM enriched_readings AS
+SELECT r.reading, r.area, b.brand_name
+FROM readings r
+INNER JOIN brands b 
+ON b.sensor = r.sensor
+PARTITION BY r.area
+EMIT CHANGES;
+
+
+
+
+![Screenshot from 2023-11-21 09-50-32](https://github.com/mfahryan/Learning-Kafka/assets/112185850/4d2b9d97-9b23-4d05-9ac3-3d43ffba8ed7)
+![Screenshot from 2023-11-21 09-50-34](https://github.com/mfahryan/Learning-Kafka/assets/112185850/0b62caef-7e3b-46d7-b560-093987bf04cc)
+![Screenshot from 2023-11-21 09-51-00](https://github.com/mfahryan/Learning-Kafka/assets/112185850/8cc7be36-2624-4cb6-b514-46fe5dde48eb)
+![Screenshot from 2023-11-21 09-51-52](https://github.com/mfahryan/Learning-Kafka/assets/112185850/672617e9-8549-41a3-ba4c-89ecaed0b89e)
+![Screenshot from 2023-11-21 09-52-05](https://github.com/mfahryan/Learning-Kafka/assets/112185850/84445080-6b4c-4070-b63f-abd6fcb3aaa1)
+
+
+
 
 
 
