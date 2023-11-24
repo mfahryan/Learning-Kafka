@@ -547,7 +547,8 @@ maka hasilnya adalah :
 
 dan hasil pada KTable nya :
 
-`8400`
+![Screenshot from 2023-11-24 14-08-10](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9591e219-9200-49bd-9da3-d6a0ec97a96f)
+
 
 # 6. Membuat Connector Menggunakan Kafka Connect Untuk Melakukan Koneksi Ke RDBMS
 ## 6.1 Apa itu RDBMS
