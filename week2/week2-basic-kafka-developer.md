@@ -395,7 +395,8 @@ seperti pada gambar dibawah :
 
 jika ditabelkan maka hasilnya seperti gambar dibawah : 
 
-![table2 drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/9976403a-a7a2-491a-b5c0-75e94dabb14d)
+![kafkastreamdiagram drawio](https://github.com/mfahryan/Learning-Kafka/assets/112185850/5cc736d7-615f-4385-83ed-714257aa2c2d)
+
 
 **5.4 Membuat Ktable**
 
