@@ -45,3 +45,16 @@ func main() {
         TopicPartition: kafka.TopicPartition{Topic: &topicVar, Partition: kafka.PartitionAny},
         Value:          payment.ToMap(),
     }, nil)
+	if err != nil {
+        fmt.Println("Error producing to Kafka:", err)
+        return
+    }
+    p.Flush(15 * 1000) // 15 seconds timeout for flushing messages
+    fmt.Println("Avro data sent to Kafka topic", topic)
+}
+
+// ToMap converts Payment struct to map for Avro encoding
+func (p Payment) ToMap() []byte {
+    return []byte(fmt.Sprintf(`{"id": "%s", "amount": %f, "description": "%s"}`, p.ID, p.Amount, p.Description))
+}
+
