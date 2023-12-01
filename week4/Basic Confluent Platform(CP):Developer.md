@@ -123,3 +123,171 @@ admin_client.close()
 ```
 
 
+# GOLANG
+
+## Buat Producer
+
+```
+
+package main
+
+import (
+        "fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
+)
+
+func main() {
+	// Konfigurasi Producer
+        config := &kafka.ConfigMap{
+                "bootstrap.servers": "br1kafka.dev.alldataint.com:9092",
+        }
+
+	producer, err := kafka.NewProducer(config)
+        if err != nil {
+                fmt.Printf("Failed to create producer: %s\n", err)
+                return
+        }
+	defer producer.Close()
+
+        // Topik yang akan di-produce
+        topic := "test-golang"
+
+        // Loop untuk mengirim 100 pesan
+        for i := 1; i <= 100; i++ {
+                message := &kafka.Message{
+                        TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+                        Value:          []byte(fmt.Sprintf("Message %d", i)),
+                }
+
+                // Produce message ke Kafka
+                err := producer.Produce(message, nil)
+                if err != nil {
+                        fmt.Printf("Failed to produce message %d: %s\n", i, err)
+                }
+        }
+
+	// Flush producer
+        producer.Flush(10000)
+        fmt.Println("Producing 100 messages completed.")
+}
+
+
+```
+
+
+## Buat Consumer
+
+```
+package main
+
+import (
+    "fmt"
+    "github.com/confluentinc/confluent-kafka-go/kafka"
+    "os"
+)
+
+func main() {
+    // Konfigurasi Consumer
+    config := &kafka.ConfigMap{
+        "bootstrap.servers": "br1kafka.dev.alldataint.com:9092",
+        "group.id":          "my-consumer-group",
+        "auto.offset.reset": "earliest", // Pilih "earliest" atau "latest" sesuai kebutuhan.
+    }
+
+    consumer, err := kafka.NewConsumer(config)
+    if err != nil {
+        fmt.Printf("Failed to create consumer: %s\n", err)
+        return
+    }
+    defer consumer.Close()
+
+    // Subscribe ke topik "test"
+    consumer.SubscribeTopics([]string{"test_kafka_python"}, nil)
+
+    // Loop terus menerima pesan
+    for {
+	ev := consumer.Poll(100)
+        if ev == nil {
+            continue
+        }
+
+	switch e := ev.(type) {
+        case *kafka.Message:
+            fmt.Printf("Received message: %s\n", string(e.Value))
+        case kafka.Error:
+            fmt.Fprintf(os.Stderr, "Error: %v\n", e)
+            break
+        }
+    }
+}
+
+
+```
+
+## Buat AdminClient
+
+```
+package main
+
+import (
+        "context"
+        "fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
+        "os"
+)
+
+func main() {
+	// Configure the admin client
+        config := &kafka.ConfigMap{
+                "bootstrap.servers": "br1kafka.dev.alldataint.com:9092",
+        }
+
+	adminClient, err := kafka.NewAdminClient(config)
+        if err != nil {
+                fmt.Printf("Failed to create admin client: %s\n", err)
+                os.Exit(1)
+        }
+	defer adminClient.Close()
+
+        // List topics
+        fmt.Println("List of topics:")
+        topics, err := adminClient.GetMetadata(nil, true, 5000)
+        if err != nil {
+                fmt.Printf("Failed to get metadata: %s\n", err)
+                os.Exit(1)
+        }
+	for _, topic := range topics.Topics {
+                fmt.Println(topic.Topic)
+        }
+
+	/* // Specify the topic to delete
+        topicToDelete := "topicdelete"
+
+        // Delete the topic
+         results, err := adminClient.DeleteTopics(context.Background(), []string{topicToDelete}, nil)
+        if err != nil {
+                fmt.Printf("Failed to delete topic %s: %s\n", topicToDelete, err)
+                os.Exit(1)
+        }
+
+        // Check the deletion results
+        fmt.Println("\nDeletion results:")
+        for _, result := range results {
+                if result.Error.Code() != kafka.ErrNoError {
+                        fmt.Printf("Failed to delete topic %s: %s\n", result.Topic, result.Error)}
+                else {
+                        fmt.Printf("Topic %s deleted successfully\n", result.Topic)
+                }
+        }*/
+}
+
+
+
+```
+
+
+
+### Membuat Avro Producer dengan Java, Python, Golang
+
+
+1. 
