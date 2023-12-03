@@ -63,3 +63,9 @@ alhasil control center tidak bisa berjalan
 untuk melacak kemajuan kelompok konsumen saat mereka menggunakan pesan dari topik Kafka.
 
 
+
+# SSL
+
+port web http 8080 https 443
+
+
