@@ -1,5 +1,10 @@
+# Bangun Kafka Producer, Kafka Consumer, Kafka Admin Client dengan bahasa selain Java (python,  go)
+
+## Membuat Producer dengan Python
+
 Karena saya sudah ada python 3 jadi saya tinggal ngambil atau install kafka-pyhton dengan `pip3 install kafka-python`
 lalu untuk menjalankan producer dengan cara seperti 
+
 ```
 from kafka import KafkaProducer
 
@@ -18,6 +23,7 @@ producer.send(topic_name, value=message)
 producer.close()
 
 ```
+## Membuat Consumer dengan bahasa Python 
 
 lalu untuk consumer nya sendiri dengan code seperti dibawah : 
 
@@ -27,7 +33,7 @@ from kafka import KafkaConsumer
 # Konfigurasi consumer
 consumer = KafkaConsumer(
     'nama_topik',
-    bootstrap_servers='localhost:9092',
+    bootstrap_servers='br1kafka.###:9092',
     group_id='nama_grup',
     auto_offset_reset='earliest',  # Ganti dengan 'latest' jika ingin membaca pesan yang masuk setelah aplikasi dimulai
     value_deserializer=lambda x: x.decode('utf-8')
@@ -41,6 +47,8 @@ for message in consumer:
 consumer.close()
 
 ```
+
+## Membuat Admin Client dengan bahasa Python
 
 Untuk kafka client admin nya sendiri jika di python seperti ini :
 disini saya masih menggunakan satu-satu admin client mungkin selanjutnya saya mungkin bisa membuat buat,list,dan delete topic berada dalam satu code
@@ -122,10 +130,9 @@ admin_client.close()
 
 ```
 
+## membuat Producer Dengan Bahasa GO
 
-# GOLANG
-
-## Buat Producer
+Jadi setelah saya membuat producer,consumer,admin client dengan bahasa python saya mencoba membuat dengan bahasa yang lain disini saya memilih untuk menggunakan bahasa GO, pertama untuk membuat producer dapat dilihat di code berikut :
 
 ```
 
@@ -139,7 +146,7 @@ import (
 func main() {
 	// Konfigurasi Producer
         config := &kafka.ConfigMap{
-                "bootstrap.servers": "br1kafka.dev.alldataint.com:9092",
+                "bootstrap.servers": "br1kafka.##:9092",
         }
 
 	producer, err := kafka.NewProducer(config)
@@ -175,7 +182,9 @@ func main() {
 ```
 
 
-## Buat Consumer
+## Membuat Consumer Dengan Bahasa GO
+
+Setelah membuat producer selanjutnya saya membuat consumer dengan bahasa GO dengan code seperti berikut
 
 ```
 package main
@@ -189,7 +198,7 @@ import (
 func main() {
     // Konfigurasi Consumer
     config := &kafka.ConfigMap{
-        "bootstrap.servers": "br1kafka.dev.alldataint.com:9092",
+        "bootstrap.servers": "br1kafka.##:9092",
         "group.id":          "my-consumer-group",
         "auto.offset.reset": "earliest", // Pilih "earliest" atau "latest" sesuai kebutuhan.
     }
@@ -224,7 +233,7 @@ func main() {
 
 ```
 
-## Buat AdminClient
+## Membuat AdminClient dengan Bahasa GO
 
 ```
 package main
@@ -286,8 +295,6 @@ func main() {
 ```
 
 
-
 ### Membuat Avro Producer dengan Java, Python, Golang
 
 
-1. 
