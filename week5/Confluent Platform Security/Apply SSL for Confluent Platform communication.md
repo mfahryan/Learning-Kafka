@@ -64,7 +64,7 @@ sesudah membuat CA-cert dan CA-KEY
 ```
 
 
-Untuk Producer
+**Untuk Producer**
 
 ```
 1.	keytool -keystore kafka.producer.truststore.jks -alias ca-cert -import -file ca-cert 
