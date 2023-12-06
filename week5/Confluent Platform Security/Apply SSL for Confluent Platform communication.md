@@ -28,7 +28,7 @@ Untuk Pembuatan Ca-Cert dan Ca-Key kita menggunakan command :
 
 sesudah membuat CA-cert dan CA-KEY
 
-Untuk Zookeeper
+**Untuk Zookeeper**
 
 ```
 1.	keytool -keystore kafka.zookeeper.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -40,7 +40,7 @@ Untuk Zookeeper
 ```
 
 
-Untuk Zookeeper.client
+**Untuk Zookeeper.client**
 
 ```
 1.	keytool -keystore kafka.zookeeper-client.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -52,7 +52,7 @@ Untuk Zookeeper.client
 ```
 
 
-Untuk Kafka.Broker
+**Untuk Kafka.Broker**
 
 ```
 1.	keytool -keystore kafka.broker.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -76,7 +76,7 @@ Untuk Producer
 ```
 
 
-Untuk Consumer
+**Untuk Consumer**
 
 ```
 1.	keytool -keystore kafka.consumer.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -88,15 +88,19 @@ Untuk Consumer
 ```
 
 
-Untuk Schema-Registry
+**Untuk Schema-Registry**
+
+```
 1.	keytool -keystore kafka.schema-registry.truststore.jks -alias ca-cert -import -file ../ca-cert 
 2.	keytool -keystore kafka.schema-registry.keystore.jks -alias schema-registry -validity 365 -genkey -keyalg RSA -ext SAN=dns:br1kafka.dev.alldataint.com
 3.	keytool -keystore kafka.schema-registry.keystore.jks -alias schema-registry -certreq -file ca-request-schema-registry 
 4.	openssl x509 -req -CA ../ca-cert -CAkey ../ca-key -in ca-request-schema-registry -out ca-signed-schema-registry -days 365 -CAcreateserial 
 5.	keytool -keystore kafka.schema-registry.keystore.jks -alias ca-cert -import -file ../ca-cert 
 6.	keytool -keystore kafka.schema-registry.keystore.jks -alias schema-registry -import -file ca-signed-schema-registry
+```
 
-Untuk Kafka Connect
+
+**Untuk Kafka Connect**
 
 ```
 1.	keytool -keystore kafka.kafka-connect.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -108,7 +112,7 @@ Untuk Kafka Connect
 ```
 
 
-Untuk Ksql Server
+**Untuk Ksql Server**
 
 ```
 1.	keytool -keystore kafka.ksql-server.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -120,7 +124,7 @@ Untuk Ksql Server
 ```
 
 
-Untuk Control Center
+**Untuk Control Center**
 
 ```
 1.	keytool -keystore kafka.control-center.truststore.jks -alias ca-cert -import -file ca-cert 
@@ -132,7 +136,7 @@ Untuk Control Center
 ```
 
 
-Untuk Kafka Client
+**Untuk Kafka Client**
 
 ```
 1.	keytool -keystore kafka.kafka-client.truststore.jks -alias ca-cert -import -file ca-cert 
