@@ -298,3 +298,18 @@ func main() {
 ### Membuat Avro Producer dengan Java, Python, Golang
 
 
+#### Membuat Producer Avro menggunakan GOLang dan membuat consumernya menggunakan bahasa Python dan Java seperti pada gambar dibawah ini
+
+1. Producer Avro Menggunakan Bahasa Golang
+
+![producerdari golang](https://github.com/mfahryan/Learning-Kafka/assets/112185850/325af8e1-7b7f-4946-b836-58343f3822b8)
+
+
+2. Consumer Avro Menggunakan Bahasa Python
+   
+![consumerpydarigo](https://github.com/mfahryan/Learning-Kafka/assets/112185850/c3f5181c-3d98-4d11-96f3-bebc5ce08760)
+
+
+3. Consumer Avro Menggunakan Bahasa Java
+   
+![consumerdarigolangkejava](https://github.com/mfahryan/Learning-Kafka/assets/112185850/ccb64934-ee07-44a6-beef-5b093685ee2e)
