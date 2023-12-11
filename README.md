@@ -69,3 +69,8 @@ untuk melacak kemajuan kelompok konsumen saat mereka menggunakan pesan dari topi
 port web http 8080 https 443
 
 
+kenapa di matiin keystore nya?
+Kalau lagi pake SASL, biasanya keystore di matiin di producer sama consumer karena SASL udah nanganin urusan autentikasi, jadi keystore yang biasanya buat sertifikat gak terlalu diperlukan.
+
+Jadi intinya, SASL itu bikin proses autentikasi jadi lebih simpel, gak perlu repot-repot pake keystore buat sertifikat. Lu basically bilang ke SASL, "Eh, urusin ini autentikasi pake kredensial ini ya," terus SASL yang nangani tanpa perlu repot-repot sama keystore.
+
