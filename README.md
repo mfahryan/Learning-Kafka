@@ -74,3 +74,8 @@ Kalau lagi pake SASL, biasanya keystore di matiin di producer sama consumer kare
 
 Jadi intinya, SASL itu bikin proses autentikasi jadi lebih simpel, gak perlu repot-repot pake keystore buat sertifikat. jadi kayak bilang ke SASL, "Eh, urusin ini autentikasi pake kredensial ini ya," terus SASL yang nangani tanpa perlu repot-repot sama keystore.
 
+
+
+cara copy dari server ke local
+
+scp -r  root@192.168.10.231:/etc/pki/certs/kafka-client /home/muhammad/Downloads
