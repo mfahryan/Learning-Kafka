@@ -79,3 +79,7 @@ Jadi intinya, SASL itu bikin proses autentikasi jadi lebih simpel, gak perlu rep
 cara copy dari server ke local
 
 scp -r  root@192.168.10.231:/etc/pki/certs/kafka-client /home/muhammad/Downloads
+
+
+curl -X GET http://br1kafka.dev.alldataint.com:8081/permission -u admin
+curl -X GET http://br1kafka.dev.alldataint.com:8081
