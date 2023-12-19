@@ -83,3 +83,7 @@ scp -r  root@192.168.10.231:/etc/pki/certs/kafka-client /home/muhammad/Downloads
 
 curl -X GET http://br1kafka.dev.alldataint.com:8081/permission -u admin
 curl -X GET http://br1kafka.dev.alldataint.com:8081
+
+
+
+For custom Kafka clients (Java or librdkafka), do not use the RBAC token listener for external client communications. Dependencies required for this authentication are not included in the Kafka client libraries. With RBAC enabled, token services are intended for internal communication between Confluent Platform components only (for example, it is valid for a Schema Registry licensed client), and not for long-running service principals or client authentication. For long-lived or client use cases, Use one of the supported authentication methods, like SASL or mTLS (mutual TLS). For details, see Authentication Methods Overview.
